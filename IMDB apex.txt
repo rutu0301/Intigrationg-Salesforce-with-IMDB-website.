@@ -1,0 +1,50 @@
+public class IMBDcontroller {
+ 
+    @AuraEnabled(cacheable=true)
+    public static string getmovies(string searchtext){
+         Http http = new Http();
+        HttpRequest request = new HttpRequest();
+       // request.setEndpoint('https://api.collectapi.com/imdb/imdbSearchByName?query=' + searchtext);
+        request.setEndpoint('callout : IMDB/imdb/imdbSearchByName?query=' + searchtext);
+        request.setMethod('GET');
+        
+      //  request.setHeader('Authorization', 'apikey 7apR6RpGlC1NowQQxA2ttr:4ZCcvoFja9YnVACMSuAPwt');
+        
+       
+        HttpResponse response = http.send(request);
+        system.debug('status code : ' + response.getStatusCode());
+        system.debug('Body  : ' + response.getBody());
+
+         if(response.getStatusCode() == 200){
+              return response.getBody();
+                      }           
+             else{
+                     return 'Error Code ' + response.getStatusCode();
+      }
+
+      //  return response;
+    }
+    
+     @AuraEnabled(cacheable=true)
+        public static string getmoviesdetails (string movieId){
+         HttpRequest request = new HttpRequest();
+        request.setEndpoint('callout : IMDB/imdb/imdbSearchById?movieId=' + movieId);
+        request.setMethod('GET');
+        
+       // request.setHeader('Authorization', 'apikey 7apR6RpGlC1NowQQxA2ttr:4ZCcvoFja9YnVACMSuAPwt');
+        
+        Http http = new Http();
+        HttpResponse response = http.send(request);
+        system.debug('status code : ' + response.getStatusCode());
+        system.debug('Body  : ' + response.getBody());
+
+         if(response.getStatusCode() == 200){
+              return response.getBody();
+ }
+else{
+    return 'Error Code ' + response.getStatusCode();
+}
+
+      //  return response;
+    }
+}
